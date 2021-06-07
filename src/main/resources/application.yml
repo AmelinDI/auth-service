@@ -1,0 +1,7 @@
+server:
+  port: 8085
+
+jdbc:
+  url: http://test.ru
+  username: anton
+  password: qwerty
