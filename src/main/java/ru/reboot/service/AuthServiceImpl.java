@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
 
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -18,46 +19,37 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public User getItem(String itemId) {
+    public User getUserByUserId(String userId) {
         return null;
     }
 
     @Override
-    public List<User> getAllItems() {
+    public User getUserByLogin(String login) {
         return null;
     }
 
     @Override
-    public List<String> getAllCategories() {
+    public void deleteUser(String userId) {
+
+    }
+
+    @Override
+    public User createUser(User user) {
         return null;
     }
 
     @Override
-    public User reserveItem(String itemId, int count) {
+    public User updateUser(User user) {
         return null;
     }
 
     @Override
-    public User unreserveItem(String itemId, int count) {
+    public List<User> getAllUsers() {
         return null;
     }
 
     @Override
-    public User getAllItemsByCategory(String category) {
-        return null;
-    }
-
-    @Override
-    public void deleteItem(String itemId) {
-    }
-
-    @Override
-    public User createItem(User user) {
-        return null;
-    }
-
-    @Override
-    public User updateItem(User user) {
+    public List<String> getAllUsersByRole(Collection<String> roles) {
         return null;
     }
 }

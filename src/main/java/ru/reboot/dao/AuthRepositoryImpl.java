@@ -18,37 +18,32 @@ public class AuthRepositoryImpl implements AuthRepository {
     }
 
     @Override
-    public User findItem(String itemId) {
+    public User findUserByUserId(String userId) {
         return null;
     }
 
     @Override
-    public User findAllItemsByCategory(String category) {
+    public User findUserByLogin(String login) {
         return null;
     }
 
     @Override
-    public void deleteItem(String itemId) {
+    public void deleteUserId(String userId) {
 
     }
 
     @Override
-    public User createItem(User user) {
+    public User createUser(User user) {
         return null;
     }
 
     @Override
-    public User updateItem(User user) {
+    public User updateUser(User user) {
         return null;
     }
 
     @Override
-    public List<User> getAllItems() {
-        return null;
-    }
-
-    @Override
-    public List<String> getAllCategories() {
+    public List<User> getAllUsers() {
         return null;
     }
 

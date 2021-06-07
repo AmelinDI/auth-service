@@ -10,6 +10,7 @@ import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -36,47 +37,37 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public User getItem(String itemId) {
-        return authService.getItem(itemId);
+    public User getUserByUserId(String userId) {
+        return authService.getUserByUserId(userId);
     }
 
     @Override
-    public User getAllItemsByCategory(String category) {
-        return authService.getAllItemsByCategory(category);
+    public User getUserByLogin(String login) {
+        return authService.getUserByLogin(login);
     }
 
     @Override
-    public void deleteItem(String itemId) {
-        authService.deleteItem(itemId);
+    public void deleteUser(String userId) {
+        authService.deleteUser(userId);
     }
 
     @Override
-    public User createItem(User user) {
-        return authService.createItem(user);
+    public User createUser(User user) {
+        return authService.createUser(user);
     }
 
     @Override
-    public User updateItem(User user) {
-        return authService.updateItem(user);
+    public User updateUser(User user) {
+        return authService.updateUser(user);
     }
 
     @Override
-    public List<User> getAllItems() {
-        return authService.getAllItems();
+    public List<User> getAllUsers() {
+        return authService.getAllUsers();
     }
 
     @Override
-    public List<String> getAllCategories() {
-        return authService.getAllCategories();
-    }
-
-    @Override
-    public User reserveItem(String itemId, int count) {
-        return authService.reserveItem(itemId, count);
-    }
-
-    @Override
-    public User unreserveItem(String itemId, int count) {
-        return authService.unreserveItem(itemId, count);
+    public List<String> getAllUsersByRole(Collection<String> roles) {
+        return authService.getAllUsersByRole(roles);
     }
 }

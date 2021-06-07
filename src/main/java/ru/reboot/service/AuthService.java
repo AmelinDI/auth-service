@@ -2,52 +2,43 @@ package ru.reboot.service;
 
 import ru.reboot.dto.User;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface AuthService {
 
     /**
-     * Получить информацию о товаре
+     * Получить информацию о пользователе по userId
      */
-    User getItem(String itemId);
+    User getUserByUserId(String userId);
 
     /**
-     * Получить товары в определенной категории
+     * Получить информацию о пользователе по login
      */
-    User getAllItemsByCategory(String category);
+    User getUserByLogin(String login);
 
     /**
-     * Удалить информацию о товаре
+     * Удалить информацию о пользователе
      */
-    void deleteItem(String itemId);
+    void deleteUser(String userId);
 
     /**
-     * Создать новый товар
+     * Создать нового пользователя
      */
-    User createItem(User user);
+    User createUser(User user);
 
     /**
-     * Обновить информацию о существующем товаре
+     * Обновить информацию о существующем пользователе
      */
-    User updateItem(User user);
+    User updateUser(User user);
 
     /**
      * Получить все товары
      */
-    List<User> getAllItems();
+    List<User> getAllUsers();
 
     /**
-     * Получить все категории товаров
+     * Получить всех пользователей по данным ролям
      */
-    List<String> getAllCategories();
-
-    /**
-     * Забронировать определенное количество товара
-     */
-    User reserveItem(String itemId, int count);
-
-    /**
-     * Отменить бронь определенного количества товара
-     */
-    User unreserveItem(String itemId, int count);
+    List<String> getAllUsersByRole(Collection<String> roles);
 }

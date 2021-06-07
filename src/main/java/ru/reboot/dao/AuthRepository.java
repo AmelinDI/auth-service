@@ -7,37 +7,32 @@ import java.util.List;
 public interface AuthRepository {
 
     /**
-     * Получить информацию о товаре
+     * Получить информацию о пользователе
      */
-    User findItem(String itemId);
+    User findUserByUserId(String userId);
 
     /**
-     * Получить товары в определенной категории
+     * Получить информацию о пользователе
      */
-    User findAllItemsByCategory(String category);
+    User findUserByLogin(String login);
 
     /**
      * Удалить информацию о товаре
      */
-    void deleteItem(String itemId);
+    void deleteUserId(String userId);
 
     /**
-     * Создать новый товар
+     * Создать нового пользователя
      */
-    User createItem(User user);
+    User createUser(User user);
 
     /**
-     * Обновить информацию о существующем товаре
+     * Обновить информацию о существующем пользователе
      */
-    User updateItem(User user);
+    User updateUser(User user);
 
     /**
-     * Получить все товары
+     * Получить всех пользователей
      */
-    List<User> getAllItems();
-
-    /**
-     * Получить все категории товаров
-     */
-    List<String> getAllCategories();
+    List<User> getAllUsers();
 }

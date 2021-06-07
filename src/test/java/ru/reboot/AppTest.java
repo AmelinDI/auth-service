@@ -36,7 +36,7 @@ public class AppTest {
 
         // prepare
         AuthRepository repositoryMock = Mockito.mock(AuthRepository.class);
-        Mockito.when(repositoryMock.findItem(Mockito.anyString())).thenReturn(new User());
+        Mockito.when(repositoryMock.findUserByUserId(Mockito.anyString())).thenReturn(new User());
 
         AuthServiceImpl service = new AuthServiceImpl();
         service.setAuthRepository(repositoryMock);
