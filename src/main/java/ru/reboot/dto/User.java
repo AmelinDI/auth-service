@@ -4,10 +4,10 @@ public class User {
 
     private String id;
     private String name;
-    private String short_name;
+    private String shortName;
     private String description;
     private String unit;
-    private double purchase_price;
+    private double purchasePrice;
     private String category;
     private String manufacturer;
     private int count;
