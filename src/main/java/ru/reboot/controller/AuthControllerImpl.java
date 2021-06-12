@@ -3,10 +3,11 @@ package ru.reboot.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping(path = "auth")
 public class AuthControllerImpl implements AuthController {
 
-    private static final Logger logger = LogManager.getLogger(AuthRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger(AuthControllerImpl.class);
 
     private AuthService authService;
 
@@ -46,9 +47,15 @@ public class AuthControllerImpl implements AuthController {
         return authService.getUserByLogin(login);
     }
 
+    /**
+     * Method gets variable from path and delete user by id
+     *
+     * @param id
+     */
     @Override
-    public void deleteUser(String userId) {
-        authService.deleteUser(userId);
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable String id) {
+        authService.deleteUser(id);
     }
 
     @Override
@@ -61,13 +68,26 @@ public class AuthControllerImpl implements AuthController {
         return authService.updateUser(user);
     }
 
+    /**
+     * Method gets all user from repository and return list of users
+     *
+     * @return List<User>
+     */
     @Override
+    @GetMapping("/user/all")
     public List<User> getAllUsers() {
         return authService.getAllUsers();
     }
 
+    /**
+     * Method take a collection of roles in parameters and return list of user with this roles
+     *
+     * @param roles
+     * @return
+     */
     @Override
-    public List<String> getAllUsersByRole(Collection<String> roles) {
+    @GetMapping("/user/all/byRoles")
+    public List<User> getAllUsersByRole(Collection<String> roles) {
         return authService.getAllUsersByRole(roles);
     }
 }

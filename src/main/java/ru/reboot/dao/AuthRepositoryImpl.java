@@ -1,14 +1,21 @@
 package ru.reboot.dao;
 
+import org.springframework.stereotype.Repository;
 import ru.reboot.dto.User;
+import ru.reboot.error.BusinessLogicException;
 
 import javax.annotation.PreDestroy;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Auth repository.
  */
+@Repository
 public class AuthRepositoryImpl implements AuthRepository {
 
     private final Connection connection;
@@ -27,9 +34,18 @@ public class AuthRepositoryImpl implements AuthRepository {
         return null;
     }
 
+    /**
+     * Method delete user by id that gets in params
+     * @param userId
+     */
     @Override
     public void deleteUserId(String userId) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM testuser WHERE USER_ID  = ?")) {
+            preparedStatement.setString(1, userId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new BusinessLogicException("Sql Exception have been throw in method deleteUserId", "deleteUserId");
+        }
     }
 
     @Override
@@ -42,9 +58,22 @@ public class AuthRepositoryImpl implements AuthRepository {
         return null;
     }
 
+    /**
+     * Method return all users got from repository
+     * @return  List<User> or throw BusinessLogicException
+     */
     @Override
     public List<User> getAllUsers() {
-        return null;
+        List<User> allUsersInBase = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM testuser")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                allUsersInBase.add(User.userBuilder(resultSet));
+            }
+            return allUsersInBase;
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Sql Exception have been throw in method getAllUsers", e.getMessage());
+        }
     }
 
     @PreDestroy
