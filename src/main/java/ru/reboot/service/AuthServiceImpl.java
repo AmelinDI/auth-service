@@ -41,9 +41,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void deleteUser(String userId) {
         logger.info("Method .deleteUser param1={}.", userId);
-        authRepository.deleteUserId(Optional
-                .of(userId)
-                .orElseThrow(() -> new BusinessLogicException("Collection of role is empty", "getAllUsersByRole")));
+        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(()->new BusinessLogicException("User is not found or id is presents in unsupported format", "deleteUser"));
+        authRepository.deleteUserId(userId);
         logger.info("Method .deleteUser completed  param1={}", userId);
     }
 
