@@ -40,7 +40,7 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public void deleteUserId(String userId) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM testuser WHERE USER_ID  = ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE USER_ID  = ?")) {
             preparedStatement.setString(1, userId);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
@@ -65,10 +65,19 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public List<User> getAllUsers() {
         List<User> allUsersInBase = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM testuser")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                allUsersInBase.add(User.userBuilder(resultSet));
+                User user = new User();
+                user.setUserId(resultSet.getString("user_id"));
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setLastName(resultSet.getString("last_name"));
+                user.setSecondName(resultSet.getString("second_name"));
+                user.setBirthDate(resultSet.getDate("birth_date").toLocalDate());
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setRole(resultSet.getString("role"));
+                allUsersInBase.add(user);
             }
             return allUsersInBase;
         } catch (SQLException e) {

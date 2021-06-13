@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
@@ -55,7 +54,7 @@ public class AuthControllerImpl implements AuthController {
      */
     @Override
     @DeleteMapping("/user/{userid}")
-    public void deleteUser(@PathVariable String userid) {
+    public void deleteUser(@PathVariable("userid") String userid) {
         authService.deleteUser(userid);
     }
 
