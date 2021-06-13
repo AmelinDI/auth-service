@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.reboot.dao.AuthRepositoryImpl;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequestMapping(path = "auth")
 public class AuthControllerImpl implements AuthController {
 
-    private static final Logger logger = LogManager.getLogger(AuthRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger(AuthControllerImpl.class);
 
     private AuthService authService;
 
@@ -37,12 +38,14 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public User getUserByUserId(String userId) {
+    @GetMapping("/user?userId={userId}")
+    public User getUserByUserId(@PathVariable("userId") String userId) {
         return authService.getUserByUserId(userId);
     }
 
     @Override
-    public User getUserByLogin(String login) {
+    @GetMapping("/user?login={login}")
+    public User getUserByLogin(@PathVariable("login") String login) {
         return authService.getUserByLogin(login);
     }
 

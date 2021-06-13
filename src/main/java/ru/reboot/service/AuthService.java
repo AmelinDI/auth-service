@@ -39,6 +39,7 @@ public interface AuthService {
 
     /**
      * Получить всех пользователей по данным ролям
+     * @return
      */
     List<String> getAllUsersByRole(Collection<String> roles);
 }
