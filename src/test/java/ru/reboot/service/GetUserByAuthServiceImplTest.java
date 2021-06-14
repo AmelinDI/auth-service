@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
-import ru.reboot.error.BusinessExceptionCode;
 import ru.reboot.error.BusinessLogicException;
 
 import static org.junit.Assert.*;
@@ -25,7 +24,7 @@ public class GetUserByAuthServiceImplTest {
         Mockito.when(authRepository.findUserByUserId("1001")).thenReturn(user1);
         Mockito.when(authRepository.findUserByUserId("50")).thenReturn(null);
         Mockito.when(authRepository.findUserByUserId("five"))
-                .thenThrow(new BusinessLogicException("Mockito test exception",BusinessExceptionCode.ILLEGAL_ARGUMENT));
+                .thenThrow(new BusinessLogicException("Mockito test exception","ILLEGAL_ARGUMENT"));
 
         // act
         AuthServiceImpl authService = new AuthServiceImpl();
@@ -63,7 +62,7 @@ public class GetUserByAuthServiceImplTest {
         Mockito.when(authRepository.findUserByLogin("login02")).thenReturn(user2);
         Mockito.when(authRepository.findUserByLogin("loginForNull")).thenReturn(null);
         Mockito.when(authRepository.findUserByLogin("loginForException"))
-                .thenThrow(new BusinessLogicException("Mockito test exception",BusinessExceptionCode.ILLEGAL_ARGUMENT));
+                .thenThrow(new BusinessLogicException("Mockito test exception","ILLEGAL_ARGUMENT"));
 
         // act
         AuthServiceImpl authService = new AuthServiceImpl();

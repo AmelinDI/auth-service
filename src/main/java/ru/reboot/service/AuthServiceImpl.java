@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
-import ru.reboot.error.BusinessExceptionCode;
 import ru.reboot.error.BusinessLogicException;
 
 import java.util.Collection;
@@ -37,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
         result = authRepository.findUserByUserId(userId);
         if (result == null) {
-            throw new BusinessLogicException("User with userId=" + userId + "not found",BusinessExceptionCode.USER_NOT_FOUND);
+            throw new BusinessLogicException("User with userId=" + userId + "not found","USER_NOT_FOUND");
         }
 
         logger.info("Method .getUserByLogin completed userId={} result={}",userId,result);
@@ -58,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 
         result = authRepository.findUserByLogin(login);
         if (result == null) {
-            throw new BusinessLogicException("User with login=" + login + "not found",BusinessExceptionCode.USER_NOT_FOUND);
+            throw new BusinessLogicException("User with login=" + login + "not found","USER_NOT_FOUND");
         }
 
         logger.info("Method .getUserByLogin completed login={} result={}",login,result);

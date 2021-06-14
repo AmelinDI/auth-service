@@ -1,7 +1,6 @@
 package ru.reboot.dao;
 
 import ru.reboot.dto.User;
-import ru.reboot.error.BusinessExceptionCode;
 import ru.reboot.error.BusinessLogicException;
 
 import javax.annotation.PreDestroy;
@@ -50,7 +49,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),BusinessExceptionCode.DATABASE_ERROR);
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
         }
         return result;
     }
@@ -85,7 +84,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),BusinessExceptionCode.DATABASE_ERROR);
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
         }
         return result;
     }

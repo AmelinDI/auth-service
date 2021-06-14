@@ -2,14 +2,14 @@ package ru.reboot.error;
 
 public class BusinessLogicException extends RuntimeException {
 
-    private final BusinessExceptionCode code;
+    private final String code;
 
-    public BusinessLogicException(String message, BusinessExceptionCode code) {
+    public BusinessLogicException(String message, String code) {
         super(message);
         this.code = code;
     }
 
-    public BusinessExceptionCode getCode() {
+    public String getCode() {
         return code;
     }
 
