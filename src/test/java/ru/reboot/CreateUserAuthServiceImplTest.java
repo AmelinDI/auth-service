@@ -30,6 +30,7 @@ public class CreateUserAuthServiceImplTest {
         User user = new User.Builder().setUserID("1").setPassword("pass").build();
         try{
             authService.createUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
@@ -41,6 +42,7 @@ public class CreateUserAuthServiceImplTest {
         User user = new User.Builder().setLogin("login").setPassword("pass").build();
         try{
             authService.createUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
@@ -52,6 +54,7 @@ public class CreateUserAuthServiceImplTest {
         User user = new User.Builder().setLogin("login").setUserID("1").build();
         try{
             authService.createUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
@@ -65,6 +68,7 @@ public class CreateUserAuthServiceImplTest {
         Mockito.when(authRepository.findUserByUserId("login")).thenReturn(null);
         try{
             authService.createUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_LOGIN.name());
@@ -77,6 +81,7 @@ public class CreateUserAuthServiceImplTest {
         Mockito.when(authRepository.findUserByUserId("1")).thenReturn(user);
         try{
             authService.createUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_USERID.name());
