@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void deleteUser(String userId) {
         logger.info("Method .deleteUser param1={}.", userId);
-        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(()->new BusinessLogicException("User is not found or id is present in unsupported format", "deleteUser"));
+        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(()->new BusinessLogicException("User not found or id is present in unsupported format", "NoUser"));
         authRepository.deleteUserId(userId);
         logger.info("Method .deleteUser completed  param1={}", userId);
     }
@@ -63,9 +63,8 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public List<User> getAllUsers() {
-        logger.info("Method .getAllUsers param1={}", "void");
         List<User> users = authRepository.getAllUsers();
-        logger.info("Method .getAllUsers completed  param1={}, result = {}", "void", users);
+        logger.info("Method .getAllUsers completed result = {}", users);
         return users;
     }
 
@@ -79,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
     public List<User> getAllUsersByRole(Collection<String> roles) {
         logger.info("Method .getAllUsersByRole param1={}", roles);
         if (roles == null || roles.isEmpty())
-            throw new BusinessLogicException("Collection of role is empty", "getAllUsersByRole");
+            throw new BusinessLogicException("Input params is empty or dont contains any roles ", "BadInputParams");
         else {
             List<User> users = authRepository.getAllUsers()
                     .stream()

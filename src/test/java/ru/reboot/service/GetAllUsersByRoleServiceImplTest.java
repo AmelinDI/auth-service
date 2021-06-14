@@ -65,10 +65,16 @@ public class GetAllUsersByRoleServiceImplTest {
         Assert.assertNotEquals(authService.getAllUsersByRole(roles).size(), 2);
     }
 
-    @Test(expected = BusinessLogicException.class)
+    @Test
     public void twoNegativeGetAllUsersByRoleTest() {
         Collection<String> roles = new ArrayList<>();
         when(authRepository.getAllUsers()).thenReturn(setUpUserList());
-        authService.getAllUsersByRole(roles);
+        try {
+            authService.getAllUsersByRole(roles);
+            Assert.fail();
+        } catch (BusinessLogicException exception) {
+            Assert.assertEquals("NoUsers", exception.getCode());
+        }
+
     }
 }

@@ -52,10 +52,10 @@ public class GetAllServiceImplTest {
         Assert.assertEquals(0, authService.getAllUsers().size());
     }
 
-    @Test(expected = BusinessLogicException.class)
+    @Test
     public void negativeGetAllUsersTest() {
         MockitoAnnotations.initMocks(this);
-        doThrow(new BusinessLogicException("BusinessLogicException", "in negativeDeleteUserByIdTest")).when(authRepository).getAllUsers();
-        authService.getAllUsers();
+        when(authRepository.getAllUsers()).thenReturn(null);
+        Assert.assertNull(authService.getAllUsers());
     }
 }

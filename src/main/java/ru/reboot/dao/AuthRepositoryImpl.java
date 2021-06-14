@@ -68,16 +68,17 @@ public class AuthRepositoryImpl implements AuthRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                User user = new User();
-                user.setUserId(resultSet.getString("user_id"));
-                user.setFirstName(resultSet.getString("first_name"));
-                user.setLastName(resultSet.getString("last_name"));
-                user.setSecondName(resultSet.getString("second_name"));
-                user.setBirthDate(resultSet.getDate("birth_date").toLocalDate());
-                user.setLogin(resultSet.getString("login"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getString("role"));
-                allUsersInBase.add(user);
+                User user = new User.Builder()
+                        .setUserID(resultSet.getString("user_id"))
+                        .setFirstName(resultSet.getString("first_name"))
+                        .setLastName(resultSet.getString("last_name"))
+                        .setSecondName(resultSet.getString("second_name"))
+                        .setBirthDate(resultSet.getDate("birth_date").toLocalDate())
+                        .setLogin(resultSet.getString("login"))
+                        .setPassword(resultSet.getString("password"))
+                        .setRole(resultSet.getString("role"))
+                        .build();
+                        allUsersInBase.add(user);
             }
             return allUsersInBase;
         } catch (SQLException e) {

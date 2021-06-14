@@ -53,8 +53,8 @@ public class AuthControllerImpl implements AuthController {
      * @param userid
      */
     @Override
-    @DeleteMapping("/user/{userid}")
-    public void deleteUser(@PathVariable("userid") String userid) {
+    @DeleteMapping("/user/{userId}")
+    public void deleteUser(@PathVariable("userId") String userid) {
         authService.deleteUser(userid);
     }
 
