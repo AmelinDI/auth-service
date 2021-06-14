@@ -101,8 +101,8 @@ public class AuthRepositoryImpl implements AuthRepository {
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE USER_ID  = ?")) {
             preparedStatement.setString(1, userId);
             preparedStatement.executeUpdate();
-        } catch (SQLException throwables) {
-            throw new BusinessLogicException("Sql Exception have been throw in method deleteUserId", "deleteUserId");
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
         }
     }
 
@@ -173,7 +173,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
             return allUsersInBase;
         } catch (SQLException e) {
-            throw new BusinessLogicException(e.getMessage(), "SQL_EXCEPTION");
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
         }
     }
 
