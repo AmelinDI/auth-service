@@ -65,8 +65,8 @@ public class AuthRepositoryImpl implements AuthRepository {
     @Override
     public List<User> getAllUsers() {
         List<User> allUsersInBase = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+                ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 User user = new User.Builder()
                         .setUserID(resultSet.getString("user_id"))
@@ -82,7 +82,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
             return allUsersInBase;
         } catch (SQLException e) {
-            throw new BusinessLogicException("Sql Exception have been throw in method getAllUsers", e.getMessage());
+            throw new BusinessLogicException(e.getMessage(), "SQL_EXCEPTION");
         }
     }
 

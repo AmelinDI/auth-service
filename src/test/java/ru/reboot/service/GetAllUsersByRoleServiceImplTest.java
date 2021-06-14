@@ -71,9 +71,8 @@ public class GetAllUsersByRoleServiceImplTest {
         when(authRepository.getAllUsers()).thenReturn(setUpUserList());
         try {
             authService.getAllUsersByRole(roles);
-            Assert.fail();
         } catch (BusinessLogicException exception) {
-            Assert.assertEquals("NoUsers", exception.getCode());
+            Assert.assertEquals("ILLEGAL_ARGUMENT", exception.getCode());
         }
 
     }

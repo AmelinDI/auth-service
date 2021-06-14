@@ -40,10 +40,13 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public void deleteUser(String userId) {
-        logger.info("Method .deleteUser param1={}.", userId);
-        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(()->new BusinessLogicException("User not found or id is present in unsupported format", "NoUser"));
+        logger.info("Method .deleteUser userId={}.", userId);
+        if (userId == null || userId.isEmpty()) {
+            throw new BusinessLogicException("UserId is empty or null", "ILLEGAL_ARGUMENT");
+        }
+        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(() -> new BusinessLogicException("user doesn't exist", "USER_NOT_FOUND"));
         authRepository.deleteUserId(userId);
-        logger.info("Method .deleteUser completed  param1={}", userId);
+        logger.info("Method .deleteUser completed");
     }
 
     @Override
@@ -63,6 +66,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public List<User> getAllUsers() {
+        logger.info("Method .getAllUsers");
         List<User> users = authRepository.getAllUsers();
         logger.info("Method .getAllUsers completed result = {}", users);
         return users;
@@ -76,16 +80,16 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public List<User> getAllUsersByRole(Collection<String> roles) {
-        logger.info("Method .getAllUsersByRole param1={}", roles);
+        logger.info("Method .getAllUsersByRole roles={}", roles);
         if (roles == null || roles.isEmpty())
-            throw new BusinessLogicException("Input params is empty or dont contains any roles ", "BadInputParams");
+            throw new BusinessLogicException("Collection role is empty or null", "ILLEGAL_ARGUMENT");
         else {
             List<User> users = authRepository.getAllUsers()
                     .stream()
                     .filter(user -> roles.contains(user.getRole()))
                     .collect(Collectors.toList());
 
-            logger.info("Method .getAllUsersByRole completed  param1={}, result = {}", roles, users);
+            logger.info("Method .getAllUsersByRole completed  roles={}, result={}", roles, users);
             return users;
         }
     }
