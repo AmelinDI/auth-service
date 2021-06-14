@@ -8,7 +8,9 @@ import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.error.BusinessLogicException;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 public class DeleteServiceImplTest {
