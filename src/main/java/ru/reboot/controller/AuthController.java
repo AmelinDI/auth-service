@@ -1,5 +1,6 @@
 package ru.reboot.controller;
 
+import org.springframework.web.bind.annotation.PostMapping;
 import ru.reboot.dto.User;
 
 import java.util.Collection;
@@ -25,6 +26,7 @@ public interface AuthController {
     /**
      * Создать нового пользователя
      */
+
     User createUser(User user);
 
     /**
