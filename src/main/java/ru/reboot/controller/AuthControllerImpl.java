@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
@@ -37,12 +36,28 @@ public class AuthControllerImpl implements AuthController {
         return "AuthController " + new Date();
     }
 
+    /**
+     * Gets Parameter (userID) by REST
+     * Redirects request to authService to find user in database with specified userID
+     * or throws BusinessLogicException
+     *
+     * @param userId - user id
+     * @return User
+     */
     @Override
     @GetMapping("/user?userId={userId}")
     public User getUserByUserId(@PathVariable("userId") String userId) {
         return authService.getUserByUserId(userId);
     }
 
+    /**
+     * Gets Parameter (login) by REST
+     * Redirects request to authService to find user in database with specified login
+     * or throws BusinessLogicException
+     *
+     * @param login - user login
+     * @return User
+     */
     @Override
     @GetMapping("/user?login={login}")
     public User getUserByLogin(@PathVariable("login") String login) {

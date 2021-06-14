@@ -2,6 +2,7 @@ package ru.reboot.dao;
 
 import ru.reboot.dto.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface AuthRepository {
@@ -9,12 +10,12 @@ public interface AuthRepository {
     /**
      * Получить информацию о пользователе
      */
-    User findUserByUserId(String userId);
+    User findUserByUserId(String userId) throws SQLException;
 
     /**
      * Получить информацию о пользователе
      */
-    User findUserByLogin(String login);
+    User findUserByLogin(String login) throws SQLException;
 
     /**
      * Удалить информацию о товаре

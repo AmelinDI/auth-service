@@ -2,23 +2,8 @@ server:
   port: 8085
 
 jdbc:
-  url: http://test.ru
-  username: anton
+  url: jdbc:postgresql://84.201.167.2:5432/simple_db
+  username: db_user
   password: qwerty
 
-spring:
-  jpa:
-    database: POSTGRESQL
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
-  datasource:
-    platform: postgres
-    url: jdbc:postgresql://84.201.167.2:5432/
-    username: db_user
-    password: qwerty
-    driverClassName: org.postgresql.Driver
-  liquibase:
-    change-log: classpath:/sql/db.changelog-master.xml
-    enabled: true
 

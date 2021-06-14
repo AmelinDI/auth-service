@@ -7,6 +7,7 @@ import ru.reboot.dao.AuthRepository;
 import ru.reboot.dao.AuthRepositoryImpl;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Configuration
@@ -23,8 +24,7 @@ public class Config {
 
     @Bean
     public AuthRepository userRepositoryBean() throws SQLException {
-
-        Connection connection = null;//DriverManager.getConnection(url, username, password);
+        Connection connection = DriverManager.getConnection(url, username, password);
         return new AuthRepositoryImpl(connection);
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
+import ru.reboot.error.BusinessLogicException;
 
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,21 +25,49 @@ public class AuthServiceImpl implements AuthService {
         this.authRepository = authRepository;
     }
 
+    /**
+     * Returns registered user from database with specified user_id
+     * or throws BusinessLogicException
+     *
+     * @param userId - user id
+     * @return User
+     */
     @Override
     public User getUserByUserId(String userId) {
         User result;
-        logger.info("Method getUserByUserId userId="+userId+" (Заход в метод)");
-        result = authRepository.findUserByUserId(userId);
-        logger.info("Method getUserByUserId completed userId="+userId+" result="+result);
+        logger.info("Method .getUserByLogin userId={}",userId);
+        try {
+            result = authRepository.findUserByUserId(userId);
+            if (result == null) {
+                throw new BusinessLogicException("User with userId=" + userId + "not found","NoUser");
+            }
+        } catch (SQLException throwables) {
+            throw new BusinessLogicException("Exception in DB:" + throwables.getMessage(),"DBError");
+        }
+        logger.info("Method .getUserByLogin completed userId={} result={}",userId,result);
         return result;
     }
 
+    /**
+     * Returns registered user from database with specified login
+     * or throws BusinessLogicException
+     *
+     * @param login - user login
+     * @return User
+     */
     @Override
     public User getUserByLogin(String login) {
         User result;
-        logger.info("Method getUserByLogin login="+login+" (Заход в метод)");
-        result = authRepository.findUserByLogin(login);
-        logger.info("Method getUserByLogin completed login="+login+" result="+result);
+        logger.info("Method .getUserByLogin login={}",login);
+        try {
+            result = authRepository.findUserByLogin(login);
+            if (result == null) {
+                throw new BusinessLogicException("User with login=" + login + "not found","NoUser");
+            }
+        } catch (SQLException throwables) {
+            throw new BusinessLogicException("Exception in DB:" + throwables.getMessage(),"DBError");
+        }
+        logger.info("Method .getUserByLogin completed login={} result={}",login,result);
         return result;
     }
 
