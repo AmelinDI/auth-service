@@ -3,10 +3,8 @@ package ru.reboot.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
@@ -69,13 +67,15 @@ public class AuthControllerImpl implements AuthController {
         authService.deleteUser(userId);
     }
 
+    @PostMapping("/user")
     @Override
-    public User createUser(User user) {
+    public User createUser(@RequestBody User user) {
         return authService.createUser(user);
     }
 
+    @PutMapping("/user")
     @Override
-    public User updateUser(User user) {
+    public User updateUser(@RequestBody User user) {
         return authService.updateUser(user);
     }
 
