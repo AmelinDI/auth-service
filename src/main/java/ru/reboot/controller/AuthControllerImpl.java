@@ -3,14 +3,7 @@ package ru.reboot.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
@@ -49,8 +42,8 @@ public class AuthControllerImpl implements AuthController {
      * @return User
      */
     @Override
-    @GetMapping("/user?userId={userId}")
-    public User getUserByUserId(@PathVariable("userId") String userId) {
+    @GetMapping("/user/byUserId")
+    public User getUserByUserId(@RequestParam("userId") String userId) {
         return authService.getUserByUserId(userId);
     }
 
@@ -63,8 +56,8 @@ public class AuthControllerImpl implements AuthController {
      * @return User
      */
     @Override
-    @GetMapping("/user?login={login}")
-    public User getUserByLogin(@PathVariable("login") String login) {
+    @GetMapping("/user/byLogin")
+    public User getUserByLogin(@RequestParam("login") String login) {
         return authService.getUserByLogin(login);
     }
 
