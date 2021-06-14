@@ -35,7 +35,7 @@ public interface AuthController {
     User updateUser(User user);
 
     /**
-     * Получить все товары
+     * Получить всех пользователей
      */
     List<User> getAllUsers();
 

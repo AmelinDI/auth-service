@@ -52,8 +52,11 @@ public class AuthServiceImpl implements AuthService {
         if (Objects.isNull(user.getLogin()) || Objects.isNull(user.getPassword()) || Objects.isNull(user.getUserId())){
             throw new BusinessLogicException("User doesnt have login,password or userid", ErrorCodes.ILLEGAL_ARGUMENT.name());
         }
-        if(!Objects.isNull(getUserByLogin(user.getLogin())) || !Objects.isNull(getUserByUserId(user.getUserId()))){
-            throw new BusinessLogicException("User with that login or userid already exists",ErrorCodes.USER_ALREADY_EXISTS.name());
+        if(!Objects.isNull(getUserByLogin(user.getLogin()))){
+            throw new BusinessLogicException("User with that login already exists",ErrorCodes.DUPLICATE_LOGIN.name());
+        }
+        if(!Objects.isNull(getUserByUserId(user.getUserId()))){
+            throw new BusinessLogicException("User with that userid already exists",ErrorCodes.DUPLICATE_USERID.name());
         }
         authRepository.createUser(user);
         logger.info("Method .createUser completed inputParam_1={}, result={}",user,user);
@@ -72,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BusinessLogicException("User doesnt have login or password", ErrorCodes.ILLEGAL_ARGUMENT.name());
         }
         if(Objects.isNull(getUserByLogin(user.getLogin()))){
-            throw new BusinessLogicException("User with that login not exists",ErrorCodes.USER_NOT_EXISTS.name());
+            throw new BusinessLogicException("User with that login not exists",ErrorCodes.USER_NOT_FOUND.name());
         }
         authRepository.updateUser(user);
         logger.info("Method .createUser completed inputParam_1={}, result={}",user,user);

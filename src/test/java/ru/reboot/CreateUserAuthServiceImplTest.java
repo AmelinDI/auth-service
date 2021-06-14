@@ -66,7 +66,7 @@ public class CreateUserAuthServiceImplTest {
             authService.createUser(user);
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.USER_ALREADY_EXISTS.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_LOGIN.name());
         }
     }
     @Test()
@@ -77,7 +77,7 @@ public class CreateUserAuthServiceImplTest {
             authService.createUser(user);
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.USER_ALREADY_EXISTS.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_USERID.name());
         }
     }
 

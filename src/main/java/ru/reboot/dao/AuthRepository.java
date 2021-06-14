@@ -17,7 +17,7 @@ public interface AuthRepository {
     User findUserByLogin(String login);
 
     /**
-     * Удалить информацию о товаре
+     * Удалить информацию о пользователе
      */
     void deleteUserId(String userId);
 

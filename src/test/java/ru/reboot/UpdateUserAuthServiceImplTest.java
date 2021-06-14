@@ -52,7 +52,7 @@ public class UpdateUserAuthServiceImplTest {
             authService.updateUser(user);
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(), ErrorCodes.USER_NOT_EXISTS.name());
+            Assert.assertEquals(exception.getCode(), ErrorCodes.USER_NOT_FOUND.name());
         }
     }
 
