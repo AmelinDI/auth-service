@@ -1,16 +1,15 @@
 package ru.reboot.dao;
 
 import ru.reboot.dto.User;
+import ru.reboot.error.BusinessExceptionCode;
+import ru.reboot.error.BusinessLogicException;
 
 import javax.annotation.PreDestroy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Auth repository.
@@ -29,10 +28,9 @@ public class AuthRepositoryImpl implements AuthRepository {
      *
      * @param userId - user id
      * @return User or null
-     * @throws SQLException - SQL Exception
      */
     @Override
-    public User findUserByUserId(String userId) throws SQLException {
+    public User findUserByUserId(String userId) {
         User result = null;
 
         try (PreparedStatement ps = connection.prepareStatement("select * from users where user_id = ?")) {
@@ -51,6 +49,8 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .build();
                 }
             }
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),BusinessExceptionCode.DATABASE_ERROR);
         }
         return result;
     }
@@ -62,10 +62,9 @@ public class AuthRepositoryImpl implements AuthRepository {
      *
      * @param login - user login
      * @return User or null
-     * @throws SQLException - SQL Exception
      */
     @Override
-    public User findUserByLogin(String login) throws SQLException {
+    public User findUserByLogin(String login) {
         User result = null;
 
         try (PreparedStatement ps = connection.prepareStatement("select * from users where login = ?")) {
@@ -77,6 +76,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .setFirstName(rs.getString("first_name"))
                             .setLastName(rs.getString("last_name"))
                             .setSecondName(rs.getString("second_name"))
+                            .setBirthDate(rs.getDate("birth_date").toLocalDate())
                             .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
                             .setLogin(rs.getString("login"))
                             .setPassword(rs.getString("password"))
@@ -84,6 +84,8 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .build();
                 }
             }
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),BusinessExceptionCode.DATABASE_ERROR);
         }
         return result;
     }

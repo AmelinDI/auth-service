@@ -4,16 +4,15 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
+import ru.reboot.error.BusinessExceptionCode;
 import ru.reboot.error.BusinessLogicException;
 
-import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 public class GetUserByAuthServiceImplTest {
 
     @Test
-    public void getUserByUserId() throws SQLException {
+    public void getUserByUserId() {
         // prepare
         AuthRepository authRepository = Mockito.mock(AuthRepository.class);
         User user1 = new User.Builder()
@@ -23,16 +22,10 @@ public class GetUserByAuthServiceImplTest {
                 .setPassword("password01")
                 .setRole("admin")
                 .build();
-        User user3 = new User.Builder()
-                .setUserID("1003")
-                .setFirstName("Name03")
-                .setLogin("login03")
-                .setPassword("password03")
-                .setRole("admin")
-                .build();
         Mockito.when(authRepository.findUserByUserId("1001")).thenReturn(user1);
         Mockito.when(authRepository.findUserByUserId("50")).thenReturn(null);
-        Mockito.when(authRepository.findUserByUserId("five")).thenThrow(new SQLException());
+        Mockito.when(authRepository.findUserByUserId("five"))
+                .thenThrow(new BusinessLogicException("Mockito test exception",BusinessExceptionCode.ILLEGAL_ARGUMENT));
 
         // act
         AuthServiceImpl authService = new AuthServiceImpl();
@@ -40,12 +33,24 @@ public class GetUserByAuthServiceImplTest {
 
         // verify
         assertEquals(user1,authService.getUserByUserId("1001"));
-        assertThrows(BusinessLogicException.class,() -> authService.getUserByUserId("50"));
-        assertThrows(BusinessLogicException.class,() -> authService.getUserByUserId("five"));
+
+        // verify getUserByUserId("50") for Exception
+        try {
+            authService.getUserByUserId("50");
+            fail("getUserByUserId(\"50\") DON'T throws exception");
+        } catch (BusinessLogicException ignored) {
+        }
+
+        // verify getUserByUserId("five") for Exception
+        try {
+            authService.getUserByUserId("five");
+            fail("getUserByUserId(\"five\") DON'T throws exception");
+        } catch (BusinessLogicException ignored) {
+        }
     }
 
     @Test
-    public void getUserByLogin() throws SQLException {
+    public void getUserByLogin() {
         // prepare
         AuthRepository authRepository = Mockito.mock(AuthRepository.class);
         User user2 = new User.Builder()
@@ -56,8 +61,9 @@ public class GetUserByAuthServiceImplTest {
                 .setRole("admin")
                 .build();
         Mockito.when(authRepository.findUserByLogin("login02")).thenReturn(user2);
-        Mockito.when(authRepository.findUserByLogin("incorrect")).thenReturn(null);
-        Mockito.when(authRepository.findUserByLogin("logooff")).thenThrow(new SQLException());
+        Mockito.when(authRepository.findUserByLogin("loginForNull")).thenReturn(null);
+        Mockito.when(authRepository.findUserByLogin("loginForException"))
+                .thenThrow(new BusinessLogicException("Mockito test exception",BusinessExceptionCode.ILLEGAL_ARGUMENT));
 
         // act
         AuthServiceImpl authService = new AuthServiceImpl();
@@ -65,7 +71,19 @@ public class GetUserByAuthServiceImplTest {
 
         // verify
         assertEquals(user2,authService.getUserByLogin("login02"));
-        assertThrows(BusinessLogicException.class,() -> authService.getUserByLogin("incorrect"));
-        assertThrows(BusinessLogicException.class,() -> authService.getUserByLogin("logooff"));
+
+        // verify getUserByLogin("loginForNull") for Exception
+        try {
+            authService.getUserByLogin("loginForNull");
+            fail("getUserByLogin(\"loginForNull\") DON'T throws exception");
+        } catch (BusinessLogicException ignored) {
+        }
+
+        // verify getUserByLogin("loginForException") for Exception
+        try {
+            authService.getUserByLogin("loginForException");
+            fail("getUserByLogin(\"loginForException\") DON'T throws exception");
+        } catch (BusinessLogicException ignored) {
+        }
     }
 }

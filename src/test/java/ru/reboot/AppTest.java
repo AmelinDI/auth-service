@@ -7,10 +7,9 @@ import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthServiceImpl;
 
-import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class AppTest {
 
@@ -33,7 +32,7 @@ public class AppTest {
     }
 
     @Test
-    public void mockRepositoryTest() throws SQLException {
+    public void mockRepositoryTest() {
 
         // prepare
         AuthRepository repositoryMock = Mockito.mock(AuthRepository.class);
@@ -49,38 +48,4 @@ public class AppTest {
 //        Assert.assertEquals(...
 //        Assert.assertEquals(...
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
