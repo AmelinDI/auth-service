@@ -8,6 +8,7 @@ import org.mockito.MockitoAnnotations;
 import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.error.BusinessLogicException;
+import ru.reboot.error.ErrorCodes;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -32,7 +33,7 @@ public class DeleteServiceImplTest {
     @Test
     public void negativeDeleteUserByIdTest() {
         MockitoAnnotations.initMocks(this);
-        doThrow(new BusinessLogicException("User with that login or userId already exists", "USER_NOT_FOUND")).when(authRepository).deleteUserId("2");
+        doThrow(new BusinessLogicException("User with that login or userId already exists", ErrorCodes.USER_NOT_FOUND.name())).when(authRepository).deleteUserId("2");
         try{
             authService.deleteUser("2");
         }
@@ -44,7 +45,7 @@ public class DeleteServiceImplTest {
     @Test
     public void twoNegativeDeleteUserByIdTest() {
         MockitoAnnotations.initMocks(this);
-        doThrow(new BusinessLogicException("userId is empty or null", "ILLEGAL_ARGUMENT ")).when(authRepository).deleteUserId(null);
+        doThrow(new BusinessLogicException("userId is empty or null", ErrorCodes.ILLEGAL_ARGUMENT.name())).when(authRepository).deleteUserId(null);
         try{
             authService.deleteUser(null);
             Assert.fail();

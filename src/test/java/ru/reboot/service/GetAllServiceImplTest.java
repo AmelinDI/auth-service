@@ -7,12 +7,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
-import ru.reboot.error.BusinessLogicException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 
