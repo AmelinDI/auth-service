@@ -59,5 +59,5 @@ public interface AuthService {
      *
      * @throws ru.reboot.error.BusinessLogicException with code ILLEGAL_ARGUMENT if roles is null
      */
-    List<String> getAllUsersByRole(Collection<String> roles);
+    List<User> getAllUsersByRole(Collection<String> roles);
 }

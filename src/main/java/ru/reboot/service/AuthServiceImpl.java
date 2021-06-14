@@ -16,6 +16,8 @@ import ru.reboot.error.ErrorCodes;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -70,9 +72,20 @@ public class AuthServiceImpl implements AuthService {
         return result;
     }
 
+    /**
+     * Method delete user by id that gets in params
+     *
+     * @param userId
+     */
     @Override
     public void deleteUser(String userId) {
-
+        logger.info("Method .deleteUser userId={}.", userId);
+        if (userId == null || userId.isEmpty()) {
+            throw new BusinessLogicException("UserId is empty or null", ErrorCodes.ILLEGAL_ARGUMENT.name());
+        }
+        Optional.ofNullable(authRepository.findUserByUserId(userId)).orElseThrow(() -> new BusinessLogicException("user doesn't exist", ErrorCodes.USER_NOT_FOUND.name()));
+        authRepository.deleteUserId(userId);
+        logger.info("Method .deleteUser completed");
     }
 
     /**
@@ -116,13 +129,38 @@ public class AuthServiceImpl implements AuthService {
         return user;
     }
 
+    /**
+     * Method gets all user from repository and return list of users
+     *
+     * @return List<User>
+     */
     @Override
     public List<User> getAllUsers() {
-        return null;
+        logger.info("Method .getAllUsers");
+        List<User> users = authRepository.getAllUsers();
+        logger.info("Method .getAllUsers completed result = {}", users);
+        return users;
     }
 
+    /**
+     * Method gets collection of roles in params and gets all users from repository and return user list only have a role contained in roles collection
+     *
+     * @param roles
+     * @return List<User>
+     */
     @Override
-    public List<String> getAllUsersByRole(Collection<String> roles) {
-        return null;
+    public List<User> getAllUsersByRole(Collection<String> roles) {
+        logger.info("Method .getAllUsersByRole roles={}", roles);
+        if (roles == null || roles.isEmpty())
+            throw new BusinessLogicException("Collection role is empty or null", ErrorCodes.ILLEGAL_ARGUMENT.name());
+        else {
+            List<User> users = authRepository.getAllUsers()
+                    .stream()
+                    .filter(user -> roles.contains(user.getRole()))
+                    .collect(Collectors.toList());
+
+            logger.info("Method .getAllUsersByRole completed  roles={}, result={}", roles, users);
+            return users;
+        }
     }
 }
