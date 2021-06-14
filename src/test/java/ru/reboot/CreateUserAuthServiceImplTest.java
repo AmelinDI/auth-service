@@ -61,7 +61,8 @@ public class CreateUserAuthServiceImplTest {
     @Test()
     public void negativeUserWithLoginExists(){
         User user = new User.Builder().setLogin("login").setUserID("1").setPassword("pass").build();
-        Mockito.when(authService.getUserByLogin("login")).thenReturn(user);
+        Mockito.when(authRepository.findUserByLogin("login")).thenReturn(user);
+        Mockito.when(authRepository.findUserByUserId("login")).thenReturn(null);
         try{
             authService.createUser(user);
         }
@@ -72,7 +73,8 @@ public class CreateUserAuthServiceImplTest {
     @Test()
     public void negativeUserWithUseridExists(){
         User user = new User.Builder().setLogin("login").setUserID("1").setPassword("pass").build();
-        Mockito.when(authService.getUserByUserId("1")).thenReturn(user);
+        Mockito.when(authRepository.findUserByLogin("login")).thenReturn(null);
+        Mockito.when(authRepository.findUserByUserId("1")).thenReturn(user);
         try{
             authService.createUser(user);
         }
@@ -84,8 +86,8 @@ public class CreateUserAuthServiceImplTest {
     @Test()
     public void positiveCreateUser(){
         User user = new User.Builder().setLogin("login").setUserID("1").setPassword("pass").build();
-        Mockito.when(authService.getUserByLogin("login")).thenReturn(null);
-        Mockito.when(authService.getUserByUserId("1")).thenReturn(null);
+        Mockito.when(authRepository.findUserByLogin("login")).thenReturn(null);
+        Mockito.when(authRepository.findUserByUserId("1")).thenReturn(null);
         Assert.assertEquals(user,authService.createUser(user));
     }
 
