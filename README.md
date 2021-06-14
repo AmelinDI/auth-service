@@ -17,7 +17,7 @@
   * birth_date: LocalDate
   * login: string,
   * password: string,
-  * role: string
+  * roles: List<String>
 
 ### Создать соответствующий класс User.
 

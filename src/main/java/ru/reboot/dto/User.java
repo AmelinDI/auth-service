@@ -142,6 +142,4 @@ public class User {
             return obj;
         }
     }
-
-
 }
