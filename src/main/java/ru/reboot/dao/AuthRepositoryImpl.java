@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,9 +92,18 @@ public class AuthRepositoryImpl implements AuthRepository {
         return result;
     }
 
+    /**
+     * Method delete user by id that gets in params
+     * @param userId
+     */
     @Override
     public void deleteUserId(String userId) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE USER_ID  = ?")) {
+            preparedStatement.setString(1, userId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throw new BusinessLogicException("Sql Exception have been throw in method deleteUserId", "deleteUserId");
+        }
     }
 
 
@@ -113,6 +123,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(6, user.getLogin());
             preparedStatement.setString(7, user.getPassword());
+            preparedStatement.setString(8, user.getRole());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_CREATE_NEW_USER.name());
@@ -145,7 +156,26 @@ public class AuthRepositoryImpl implements AuthRepository {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        List<User> allUsersInBase = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                User user = new User.Builder()
+                        .setUserID(resultSet.getString("user_id"))
+                        .setFirstName(resultSet.getString("first_name"))
+                        .setLastName(resultSet.getString("last_name"))
+                        .setSecondName(resultSet.getString("second_name"))
+                        .setBirthDate(resultSet.getDate("birth_date").toLocalDate())
+                        .setLogin(resultSet.getString("login"))
+                        .setPassword(resultSet.getString("password"))
+                        .setRole(resultSet.getString("role"))
+                        .build();
+                allUsersInBase.add(user);
+            }
+            return allUsersInBase;
+        } catch (SQLException e) {
+            throw new BusinessLogicException(e.getMessage(), "SQL_EXCEPTION");
+        }
     }
 
     @PreDestroy
