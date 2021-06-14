@@ -1,7 +1,5 @@
 package ru.reboot;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -10,6 +8,8 @@ import ru.reboot.dto.User;
 import ru.reboot.service.AuthServiceImpl;
 
 import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 public class AppTest {
 

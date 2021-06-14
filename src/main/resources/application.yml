@@ -2,6 +2,8 @@ server:
   port: 8085
 
 jdbc:
-  url: http://test.ru
-  username: anton
+  url: jdbc:postgresql://84.201.167.2:5432/simple_db
+  username: db_user
   password: qwerty
+
+
