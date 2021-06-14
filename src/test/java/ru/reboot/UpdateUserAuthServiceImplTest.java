@@ -29,6 +29,7 @@ public class UpdateUserAuthServiceImplTest {
         User user = new User.Builder().setUserID("1").setPassword("pass").build();
         try{
             authService.updateUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT.name());
@@ -39,6 +40,7 @@ public class UpdateUserAuthServiceImplTest {
         User user = new User.Builder().setLogin("login").setUserID("1").build();
         try{
             authService.updateUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT.name());
@@ -50,6 +52,7 @@ public class UpdateUserAuthServiceImplTest {
         Mockito.when(authRepository.findUserByLogin("login")).thenReturn(null);
         try{
             authService.updateUser(user);
+            Assert.fail();
         }
         catch (BusinessLogicException exception){
             Assert.assertEquals(exception.getCode(), ErrorCodes.USER_NOT_FOUND.name());

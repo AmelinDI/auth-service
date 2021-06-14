@@ -9,9 +9,8 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.ZoneId;
+import java.sql.ResultSet;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Auth repository.
@@ -24,14 +23,72 @@ public class AuthRepositoryImpl implements AuthRepository {
         this.connection = connection;
     }
 
+    /**
+     * Returns registered user from database with specified userId
+     * or null if user does not exist
+     *
+     * @param userId - user id
+     * @return User or null
+     */
     @Override
     public User findUserByUserId(String userId) {
-        return null;
+        User result = null;
+
+        try (PreparedStatement ps = connection.prepareStatement("select * from users where user_id = ?")) {
+            ps.setString(1,userId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = new User.Builder()
+                            .setUserID(rs.getString("user_id"))
+                            .setFirstName(rs.getString("first_name"))
+                            .setLastName(rs.getString("last_name"))
+                            .setSecondName(rs.getString("second_name"))
+                            .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
+                            .setLogin(rs.getString("login"))
+                            .setPassword(rs.getString("password"))
+                            .setRole(rs.getString("role"))
+                            .build();
+                }
+            }
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
+        }
+        return result;
     }
 
+
+    /**
+     * Returns registered user from database with specified login
+     * or null if user does not exist
+     *
+     * @param login - user login
+     * @return User or null
+     */
     @Override
     public User findUserByLogin(String login) {
-        return null;
+        User result = null;
+
+        try (PreparedStatement ps = connection.prepareStatement("select * from users where login = ?")) {
+            ps.setString(1,login);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    result = new User.Builder()
+                            .setUserID(rs.getString("user_id"))
+                            .setFirstName(rs.getString("first_name"))
+                            .setLastName(rs.getString("last_name"))
+                            .setSecondName(rs.getString("second_name"))
+                            .setBirthDate(rs.getDate("birth_date").toLocalDate())
+                            .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
+                            .setLogin(rs.getString("login"))
+                            .setPassword(rs.getString("password"))
+                            .setRole(rs.getString("role"))
+                            .build();
+                }
+            }
+        } catch (SQLException e) {
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
+        }
+        return result;
     }
 
     @Override
@@ -70,15 +127,15 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public User updateUser(User user) {
-        String query = "UPDATE user where login = ? SET first_name = ?,last_name = ?,second_name = ?,birth_date = ?, password = ?,role = ?) Values (?,?,?,?,?,?,?)";
+        String query = "UPDATE users SET first_name = ?, last_name = ?, second_name = ?, birth_date = ?, password = ?, role = ? where login = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setString(1,user.getLogin());
-            preparedStatement.setString(2,user.getFirstName());
-            preparedStatement.setString(3,user.getLastName());
-            preparedStatement.setString(4, user.getSecondName());
-            preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
-            preparedStatement.setString(6, user.getPassword());
-            preparedStatement.setString(7, user.getRole());
+            preparedStatement.setString(1,user.getFirstName());
+            preparedStatement.setString(2,user.getLastName());
+            preparedStatement.setString(3, user.getSecondName());
+            preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
+            preparedStatement.setString(5, user.getPassword());
+            preparedStatement.setString(6, user.getRole());
+            preparedStatement.setString(7,user.getLogin());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_UPDATE_USER.name());

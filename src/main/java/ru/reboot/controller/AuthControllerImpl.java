@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping(path = "auth")
 public class AuthControllerImpl implements AuthController {
 
-    private static final Logger logger = LogManager.getLogger(AuthRepositoryImpl.class);
+    private static final Logger logger = LogManager.getLogger(AuthControllerImpl.class);
 
     private AuthService authService;
 
@@ -34,13 +34,31 @@ public class AuthControllerImpl implements AuthController {
         return "AuthController " + new Date();
     }
 
+    /**
+     * Gets Parameter (userID) by REST
+     * Redirects request to authService to find user in database with specified userID
+     * or throws BusinessLogicException
+     *
+     * @param userId - user id
+     * @return User
+     */
     @Override
-    public User getUserByUserId(String userId) {
+    @GetMapping("/user?userId={userId}")
+    public User getUserByUserId(@PathVariable("userId") String userId) {
         return authService.getUserByUserId(userId);
     }
 
+    /**
+     * Gets Parameter (login) by REST
+     * Redirects request to authService to find user in database with specified login
+     * or throws BusinessLogicException
+     *
+     * @param login - user login
+     * @return User
+     */
     @Override
-    public User getUserByLogin(String login) {
+    @GetMapping("/user?login={login}")
+    public User getUserByLogin(@PathVariable("login") String login) {
         return authService.getUserByLogin(login);
     }
 
