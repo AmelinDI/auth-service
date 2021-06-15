@@ -10,9 +10,7 @@ import ru.reboot.dao.AuthRepositoryImpl;
 import ru.reboot.dto.User;
 import ru.reboot.error.BusinessLogicException;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.when;
 
@@ -61,7 +59,7 @@ public class GetAllUsersByRoleServiceImplTest {
         secondBatchOfRoles.add("superadmin");
 
         when(authRepository.getAllUsers()).thenReturn(setUpUserList());
-        Assert.assertEquals("superadmin", authService.getAllUsersByRole(secondBatchOfRoles).get(0).getRoles());
+        Assert.assertEquals(Collections.singletonList("superadmin"), authService.getAllUsersByRole(secondBatchOfRoles).get(0).getRoles());
         Assert.assertNotEquals(authService.getAllUsersByRole(roles).size(), 2);
     }
 
