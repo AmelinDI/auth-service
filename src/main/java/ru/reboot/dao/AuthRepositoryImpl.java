@@ -47,7 +47,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
                             .setLogin(rs.getString("login"))
                             .setPassword(rs.getString("password"))
-                            .setRole(rs.getString("role"))
+                            .setRoles(rs.getString("roles"))
                             .build();
                 }
             }
@@ -82,7 +82,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
                             .setLogin(rs.getString("login"))
                             .setPassword(rs.getString("password"))
-                            .setRole(rs.getString("role"))
+                            .setRoles(rs.getString("roles"))
                             .build();
                 }
             }
@@ -114,7 +114,7 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public User createUser(User user) {
-        String query = "INSERT INTO user (user_id,first_name,last_name,second_name,birth_date,login,password,role) Values (?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO user (user_id,first_name,last_name,second_name,birth_date,login,password,roles) Values (?,?,?,?,?,?,?,?)";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,user.getUserId());
             preparedStatement.setString(2,user.getFirstName());
@@ -123,6 +123,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(6, user.getLogin());
             preparedStatement.setString(7, user.getPassword());
+            preparedStatement.setString(8, String.join(",",user.getRoles()));
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_CREATE_NEW_USER.name());
@@ -137,14 +138,14 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public User updateUser(User user) {
-        String query = "UPDATE users SET first_name = ?, last_name = ?, second_name = ?, birth_date = ?, password = ?, role = ? where login = ?";
+        String query = "UPDATE users SET first_name = ?, last_name = ?, second_name = ?, birth_date = ?, password = ?, roles = ? where login = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,user.getFirstName());
             preparedStatement.setString(2,user.getLastName());
             preparedStatement.setString(3, user.getSecondName());
             preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getRole());
+            preparedStatement.setString(6, String.join(",",user.getRoles()));
             preparedStatement.setString(7,user.getLogin());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -167,7 +168,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                         .setBirthDate(resultSet.getDate("birth_date").toLocalDate())
                         .setLogin(resultSet.getString("login"))
                         .setPassword(resultSet.getString("password"))
-                        .setRole(resultSet.getString("role"))
+                        .setRoles(resultSet.getString("roles"))
                         .build();
                 allUsersInBase.add(user);
             }
