@@ -1,8 +1,10 @@
 package ru.reboot.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class User {
     private String userId;
@@ -140,7 +142,12 @@ public class User {
         }
 
         public Builder setRoles(String roles) {
-            obj.roles = Arrays.asList(roles.split(","));
+
+            if (Objects.isNull(roles) || roles.isEmpty()) {
+                obj.roles = new ArrayList<>();
+            } else {
+                obj.roles = Arrays.asList(roles.split(","));
+            }
             return this;
         }
 
