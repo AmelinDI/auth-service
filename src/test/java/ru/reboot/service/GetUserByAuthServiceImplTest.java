@@ -19,7 +19,7 @@ public class GetUserByAuthServiceImplTest {
                 .setFirstName("Name01")
                 .setLogin("login01")
                 .setPassword("password01")
-                .setRole("admin")
+                .setRoles("admin")
                 .build();
         Mockito.when(authRepository.findUserByUserId("1001")).thenReturn(user1);
         Mockito.when(authRepository.findUserByUserId("50")).thenReturn(null);
@@ -57,7 +57,7 @@ public class GetUserByAuthServiceImplTest {
                 .setFirstName("Name02")
                 .setLogin("login02")
                 .setPassword("password02")
-                .setRole("admin")
+                .setRoles("admin")
                 .build();
         Mockito.when(authRepository.findUserByLogin("login02")).thenReturn(user2);
         Mockito.when(authRepository.findUserByLogin("loginForNull")).thenReturn(null);
