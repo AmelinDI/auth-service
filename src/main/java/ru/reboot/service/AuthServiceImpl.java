@@ -1,15 +1,11 @@
 package ru.reboot.service;
 
-import ch.qos.logback.classic.spi.IThrowableProxy;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.reboot.dao.AuthRepository;
 import ru.reboot.dto.User;
-import ru.reboot.error.BusinessLogicException;
 import ru.reboot.error.BusinessLogicException;
 import ru.reboot.error.ErrorCodes;
 
