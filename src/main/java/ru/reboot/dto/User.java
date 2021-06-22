@@ -76,14 +76,9 @@ public class User {
         return roles;
     }
 
-    public void setRoles(String roles) {
-        this.roles = Arrays.asList(roles.split(","));
-    }
-
     public void setRoles(List<String> roles) {
         this.roles = roles;
     }
-
 
     @Override
     public String toString() {

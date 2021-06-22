@@ -42,5 +42,5 @@ public interface AuthController {
     /**
      * Получить всех пользователей по данным ролям
      */
-    List<User> getAllUsersByRole(Collection<String> roles);
+    List<User> getAllUsersByRole(String roles);
 }

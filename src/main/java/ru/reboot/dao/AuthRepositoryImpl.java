@@ -125,7 +125,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             stringRoles = null;
         }
 
-        String query = "INSERT INTO user (user_id,first_name,last_name,second_name,birth_date,login,password,roles) Values (?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO users (user_id,first_name,last_name,second_name,birth_date,login,password,roles) Values (?,?,?,?,?,?,?,?)";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,user.getUserId());
             preparedStatement.setString(2,user.getFirstName());

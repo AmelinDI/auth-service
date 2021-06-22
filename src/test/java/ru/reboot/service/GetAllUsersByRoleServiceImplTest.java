@@ -32,9 +32,9 @@ public class GetAllUsersByRoleServiceImplTest {
         User one = new User();
         User two = new User();
         User three = new User();
-        one.setRoles("admin");
-        two.setRoles("user");
-        three.setRoles("superadmin");
+        one.setRoles(Collections.singletonList("admin"));
+        two.setRoles(Collections.singletonList("user"));
+        three.setRoles(Collections.singletonList("superadmin"));
         users.add(one);
         users.add(two);
         users.add(three);
