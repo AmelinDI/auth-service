@@ -87,6 +87,12 @@ public class User {
 
     @Override
     public String toString() {
+        String stringRoles;
+        if (roles != null) {
+            stringRoles = String.join(",", roles);
+        } else {
+            stringRoles = null;
+        }
         return "User{" +
                 "user_id='" + userId + '\'' +
                 ", first_name='" + firstName + '\'' +
@@ -95,7 +101,7 @@ public class User {
                 ", birth_date=" + birthDate +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", roles='" + String.join(",", roles) + '\'' +
+                ", roles='" + stringRoles + '\'' +
                 '}';
     }
 

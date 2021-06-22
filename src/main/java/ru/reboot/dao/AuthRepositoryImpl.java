@@ -114,6 +114,17 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public User createUser(User user) {
+        List<String> roles = user.getRoles();
+        String stringRoles;
+        if ( roles != null) {
+            stringRoles = String.join(",", roles);
+            if (stringRoles.equals("")) {
+                stringRoles=null;
+            }
+        } else {
+            stringRoles = null;
+        }
+
         String query = "INSERT INTO user (user_id,first_name,last_name,second_name,birth_date,login,password,roles) Values (?,?,?,?,?,?,?,?)";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,user.getUserId());
@@ -123,7 +134,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(6, user.getLogin());
             preparedStatement.setString(7, user.getPassword());
-            preparedStatement.setString(8, String.join(",",user.getRoles()));
+            preparedStatement.setString(8, stringRoles);
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_CREATE_NEW_USER.name());
@@ -138,6 +149,17 @@ public class AuthRepositoryImpl implements AuthRepository {
      */
     @Override
     public User updateUser(User user) {
+        List<String> roles = user.getRoles();
+        String stringRoles;
+        if ( roles != null) {
+            stringRoles = String.join(",", roles);
+            if (stringRoles.equals("")) {
+                stringRoles=null;
+            }
+        } else {
+            stringRoles = null;
+        }
+
         String query = "UPDATE users SET first_name = ?, last_name = ?, second_name = ?, birth_date = ?, password = ?, roles = ? where login = ?";
         try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
             preparedStatement.setString(1,user.getFirstName());
@@ -145,7 +167,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setString(3, user.getSecondName());
             preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, String.join(",",user.getRoles()));
+            preparedStatement.setString(6, stringRoles);
             preparedStatement.setString(7,user.getLogin());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
