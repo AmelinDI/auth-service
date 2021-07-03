@@ -2,7 +2,7 @@ server:
   port: 8071
 
 jdbc:
-  url: jdbc:postgresql://rc1b-bel85alabeasoom5.mdb.yandexcloud.net:6432/simple_db?&targetServerType=master&ssl=true&sslmode=verify-full
+  url: jdbc:postgresql://rc1b-ntnvoyyobhhfx8pe.mdb.yandexcloud.net:6432/simple_db
   username: db_user
   password: qwerty159753
 
