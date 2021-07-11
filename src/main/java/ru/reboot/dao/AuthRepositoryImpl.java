@@ -5,11 +5,7 @@ import ru.reboot.error.BusinessLogicException;
 import ru.reboot.error.ErrorCodes;
 
 import javax.annotation.PreDestroy;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +32,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         User result = null;
 
         try (PreparedStatement ps = connection.prepareStatement("select * from users where user_id = ?")) {
-            ps.setString(1,userId);
+            ps.setString(1, userId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     result = new User.Builder()
@@ -52,7 +48,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(), ErrorCodes.DATABASE_ERROR);
         }
         return result;
     }
@@ -70,7 +66,7 @@ public class AuthRepositoryImpl implements AuthRepository {
         User result = null;
 
         try (PreparedStatement ps = connection.prepareStatement("select * from users where login = ?")) {
-            ps.setString(1,login);
+            ps.setString(1, login);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     result = new User.Builder()
@@ -87,14 +83,15 @@ public class AuthRepositoryImpl implements AuthRepository {
                 }
             }
         } catch (SQLException e) {
-            throw new BusinessLogicException("Exception in DB: " + e.getMessage(),"DATABASE_ERROR");
+            throw new BusinessLogicException("Exception in DB: " + e.getMessage(), ErrorCodes.DATABASE_ERROR);
         }
         return result;
     }
 
     /**
      * Method delete user by id that gets in params
-     * @param userId
+     *
+     * @param userId - userId of User to delete
      */
     @Override
     public void deleteUserId(String userId) {
@@ -102,23 +99,24 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setString(1, userId);
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
-            throw new BusinessLogicException("Sql Exception have been throw in method deleteUserId", "deleteUserId");
+            throw new BusinessLogicException("Sql Exception have been throw in method deleteUserId", ErrorCodes.DATABASE_ERROR);
         }
     }
 
 
     /**
      * Dao method of creating a new user in DB
+     *
      * @param user - what user needs to be created
      * @return Passed user if success creating or throw exception BusinessLogicException.class if PreparedStatement.executeUpdate is failed
      */
     @Override
     public User createUser(User user) {
         String query = "INSERT INTO user (user_id,first_name,last_name,second_name,birth_date,login,password,role) Values (?,?,?,?,?,?,?,?)";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setString(1,user.getUserId());
-            preparedStatement.setString(2,user.getFirstName());
-            preparedStatement.setString(3,user.getLastName());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getUserId());
+            preparedStatement.setString(2, user.getFirstName());
+            preparedStatement.setString(3, user.getLastName());
             preparedStatement.setString(4, user.getSecondName());
             preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(6, user.getLogin());
@@ -126,30 +124,31 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setString(8, user.getRole());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_CREATE_NEW_USER.name());
+            throw new BusinessLogicException(exception.getMessage(), ErrorCodes.DATABASE_ERROR);
         }
         return user;
     }
 
     /**
      * DAO method of updating user data
+     *
      * @param user - what user needs to be updated
      * @return Passed user if success updating or throw exception BusinessLogicException.class if PreparedStatement.executeUpdate is failed
      */
     @Override
     public User updateUser(User user) {
         String query = "UPDATE users SET first_name = ?, last_name = ?, second_name = ?, birth_date = ?, password = ?, role = ? where login = ?";
-        try(PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            preparedStatement.setString(1,user.getFirstName());
-            preparedStatement.setString(2,user.getLastName());
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getSecondName());
             preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getRole());
-            preparedStatement.setString(7,user.getLogin());
+            preparedStatement.setString(7, user.getLogin());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
-            throw new BusinessLogicException(exception.getMessage(), ErrorCodes.CANT_UPDATE_USER.name());
+            throw new BusinessLogicException(exception.getMessage(), ErrorCodes.DATABASE_ERROR);
         }
         return user;
     }
@@ -174,7 +173,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             }
             return allUsersInBase;
         } catch (SQLException e) {
-            throw new BusinessLogicException(e.getMessage(), "SQL_EXCEPTION");
+            throw new BusinessLogicException(e.getMessage(), ErrorCodes.DATABASE_ERROR);
         }
     }
 
