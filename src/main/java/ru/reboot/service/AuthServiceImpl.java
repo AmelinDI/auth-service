@@ -190,7 +190,15 @@ public class AuthServiceImpl implements AuthService {
             else {
                 List<User> users = authRepository.getAllUsers()
                         .stream()
-                        .filter(user -> roles.contains(user.getRole()))
+                        .filter(user -> {
+                            List<String> userRoles = user.getRoles();
+                            for (String role : roles) {
+                                if (userRoles.contains(role)) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        })
                         .collect(Collectors.toList());
 
                 logger.info("Method .getAllUsersByRole completed  roles={}, result={}", roles, users);

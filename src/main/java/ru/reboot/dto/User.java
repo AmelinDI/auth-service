@@ -1,6 +1,10 @@
 package ru.reboot.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class User {
     private String userId;
@@ -10,7 +14,7 @@ public class User {
     private LocalDate birthDate;
     private String login;
     private String password;
-    private String role;
+    private List<String> roles;
 
     public String getUserId() {
         return userId;
@@ -68,17 +72,22 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public List<String> getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
-
 
     @Override
     public String toString() {
+        String stringRoles;
+        if (roles != null) {
+            stringRoles = String.join(",", roles);
+        } else {
+            stringRoles = null;
+        }
         return "User{" +
                 "user_id='" + userId + '\'' +
                 ", first_name='" + firstName + '\'' +
@@ -87,7 +96,7 @@ public class User {
                 ", birth_date=" + birthDate +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
+                ", roles='" + stringRoles + '\'' +
                 '}';
     }
 
@@ -133,8 +142,18 @@ public class User {
             return this;
         }
 
-        public Builder setRole(String role) {
-            obj.role = role;
+        public Builder setRoles(String roles) {
+
+            if (Objects.isNull(roles) || roles.isEmpty()) {
+                obj.roles = new ArrayList<>();
+            } else {
+                obj.roles = Arrays.asList(roles.split(","));
+            }
+            return this;
+        }
+
+        public Builder setRoles(List<String> roles) {
+            obj.roles = roles;
             return this;
         }
 

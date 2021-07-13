@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -99,7 +100,7 @@ public class AuthControllerImpl implements AuthController {
      */
     @Override
     @GetMapping("/user/all/byRoles")
-    public List<User> getAllUsersByRole(Collection<String> roles) {
-        return authService.getAllUsersByRole(roles);
+    public List<User> getAllUsersByRole(@RequestParam("roles") String roles) {
+        return authService.getAllUsersByRole(Arrays.asList(roles.split(",")));
     }
 }
