@@ -40,7 +40,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .setFirstName(rs.getString("first_name"))
                             .setLastName(rs.getString("last_name"))
                             .setSecondName(rs.getString("second_name"))
-                            .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
+                            .setBirthDate(rs.getDate("birth_date")==null ? null: rs.getDate("birth_date").toLocalDate())
                             .setLogin(rs.getString("login"))
                             .setPassword(rs.getString("password"))
                             .setRoles(rs.getString("roles"))
@@ -74,8 +74,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                             .setFirstName(rs.getString("first_name"))
                             .setLastName(rs.getString("last_name"))
                             .setSecondName(rs.getString("second_name"))
-                            .setBirthDate(rs.getDate("birth_date").toLocalDate())
-                            .setBirthDate(rs.getTimestamp("birth_date").toLocalDateTime().toLocalDate())
+                            .setBirthDate(rs.getDate("birth_date")==null ? null: rs.getDate("birth_date").toLocalDate())
                             .setLogin(rs.getString("login"))
                             .setPassword(rs.getString("password"))
                             .setRoles(rs.getString("roles"))
@@ -129,7 +128,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setString(2,user.getFirstName());
             preparedStatement.setString(3,user.getLastName());
             preparedStatement.setString(4, user.getSecondName());
-            preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
+            preparedStatement.setDate(5, user.getBirthDate()==null ? null : Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(6, user.getLogin());
             preparedStatement.setString(7, user.getPassword());
             preparedStatement.setString(8, stringRoles);
@@ -164,7 +163,7 @@ public class AuthRepositoryImpl implements AuthRepository {
             preparedStatement.setString(1,user.getFirstName());
             preparedStatement.setString(2,user.getLastName());
             preparedStatement.setString(3, user.getSecondName());
-            preparedStatement.setDate(4, Date.valueOf(user.getBirthDate()));
+            preparedStatement.setDate(4, user.getBirthDate()==null ? null : Date.valueOf(user.getBirthDate()));
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, stringRoles);
             preparedStatement.setString(7,user.getLogin());
@@ -186,7 +185,7 @@ public class AuthRepositoryImpl implements AuthRepository {
                         .setFirstName(resultSet.getString("first_name"))
                         .setLastName(resultSet.getString("last_name"))
                         .setSecondName(resultSet.getString("second_name"))
-                        .setBirthDate(resultSet.getDate("birth_date").toLocalDate())
+                        .setBirthDate(resultSet.getDate("birth_date")==null ? null: resultSet.getDate("birth_date").toLocalDate())
                         .setLogin(resultSet.getString("login"))
                         .setPassword(resultSet.getString("password"))
                         .setRoles(resultSet.getString("roles"))

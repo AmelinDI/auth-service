@@ -9,10 +9,7 @@ import ru.reboot.dto.User;
 import ru.reboot.error.BusinessLogicException;
 import ru.reboot.error.ErrorCodes;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -121,6 +118,9 @@ public class AuthServiceImpl implements AuthService {
             if (!Objects.isNull(authRepository.findUserByUserId(user.getUserId()))) {
                 throw new BusinessLogicException("User with userid= " + user.getUserId() + " already exists", ErrorCodes.ILLEGAL_ARGUMENT);
             }
+            if (user.getRoles() == null) {
+                user.setRoles(Collections.singletonList("USER"));
+            }
             authRepository.createUser(user);
             logger.info("Method .createUser completed inputParam_1={}, result={}", user, user);
             return user;
@@ -146,6 +146,9 @@ public class AuthServiceImpl implements AuthService {
             }
             if (Objects.isNull(authRepository.findUserByLogin(user.getLogin()))) {
                 throw new BusinessLogicException("User with login= " + user.getLogin() + " not exists", ErrorCodes.USER_NOT_FOUND);
+            }
+            if (user.getRoles() == null) {
+                user.setRoles(Collections.singletonList("USER"));
             }
             authRepository.updateUser(user);
             logger.info("Method .updateUser completed User={}, result={}", user, user);
@@ -208,6 +211,5 @@ public class AuthServiceImpl implements AuthService {
             logger.error("Method .getAllUsersByRole Roles={} error={}", roles, exp.toString(), exp);
             throw exp;
         }
-
     }
 }
