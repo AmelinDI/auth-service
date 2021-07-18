@@ -33,25 +33,25 @@ public class DeleteServiceImplTest {
     @Test
     public void negativeDeleteUserByIdTest() {
         MockitoAnnotations.initMocks(this);
-        doThrow(new BusinessLogicException("User with that login or userId already exists", ErrorCodes.USER_NOT_FOUND.name())).when(authRepository).deleteUserId("2");
+        doThrow(new BusinessLogicException("User with that login or userId already exists", ErrorCodes.USER_NOT_FOUND)).when(authRepository).deleteUserId("2");
         try{
             authService.deleteUser("2");
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals("USER_NOT_FOUND", exception.getCode());
+            Assert.assertEquals(ErrorCodes.USER_NOT_FOUND, exception.getCode());
         }
     }
 
     @Test
     public void twoNegativeDeleteUserByIdTest() {
         MockitoAnnotations.initMocks(this);
-        doThrow(new BusinessLogicException("userId is empty or null", ErrorCodes.ILLEGAL_ARGUMENT.name())).when(authRepository).deleteUserId(null);
+        doThrow(new BusinessLogicException("userId is empty or null", ErrorCodes.ILLEGAL_ARGUMENT)).when(authRepository).deleteUserId(null);
         try{
             authService.deleteUser(null);
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals("ILLEGAL_ARGUMENT", exception.getCode());
+            Assert.assertEquals(ErrorCodes.ILLEGAL_ARGUMENT, exception.getCode());
         }
     }
 }
