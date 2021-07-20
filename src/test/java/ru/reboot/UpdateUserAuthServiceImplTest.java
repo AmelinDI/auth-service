@@ -32,7 +32,7 @@ public class UpdateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT.name());
+            Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT);
         }
     }
     @Test()
@@ -43,7 +43,7 @@ public class UpdateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT.name());
+            Assert.assertEquals(exception.getCode(), ErrorCodes.ILLEGAL_ARGUMENT);
         }
     }
     @Test()
@@ -55,7 +55,7 @@ public class UpdateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(), ErrorCodes.USER_NOT_FOUND.name());
+            Assert.assertEquals(exception.getCode(), ErrorCodes.USER_NOT_FOUND);
         }
     }
 

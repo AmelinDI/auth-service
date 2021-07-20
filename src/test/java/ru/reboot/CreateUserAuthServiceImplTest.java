@@ -33,7 +33,7 @@ public class CreateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -45,7 +45,7 @@ public class CreateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -57,7 +57,7 @@ public class CreateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT);
         }
     }
 
@@ -71,7 +71,7 @@ public class CreateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_LOGIN.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.USER_ALREADY_EXISTS);
         }
     }
     @Test()
@@ -84,7 +84,7 @@ public class CreateUserAuthServiceImplTest {
             Assert.fail();
         }
         catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.DUPLICATE_USERID.name());
+            Assert.assertEquals(exception.getCode(),ErrorCodes.USER_ALREADY_EXISTS);
         }
     }
 

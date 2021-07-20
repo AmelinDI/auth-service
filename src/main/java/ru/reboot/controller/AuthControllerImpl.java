@@ -8,7 +8,6 @@ import ru.reboot.dto.User;
 import ru.reboot.service.AuthService;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class AuthControllerImpl implements AuthController {
      * @return User
      */
     @Override
-    @GetMapping("/user/byUserId")
+    @GetMapping("user/byUserId")
     public User getUserByUserId(@RequestParam("userId") String userId) {
         return authService.getUserByUserId(userId);
     }
@@ -57,25 +56,25 @@ public class AuthControllerImpl implements AuthController {
      * @return User
      */
     @Override
-    @GetMapping("/user/byLogin")
+    @GetMapping("user/byLogin")
     public User getUserByLogin(@RequestParam("login") String login) {
         return authService.getUserByLogin(login);
     }
 
     @Override
-    @DeleteMapping("/user/{userId}")
+    @DeleteMapping("user/{userId}")
     public void deleteUser(@PathVariable("userId") String userid) {
         authService.deleteUser(userid);
     }
 
 
-    @PostMapping("/user")
+    @PostMapping("user")
     @Override
     public User createUser(@RequestBody User user) {
         return authService.createUser(user);
     }
 
-    @PutMapping("/user")
+    @PutMapping("user")
     @Override
     public User updateUser(@RequestBody User user) {
         return authService.updateUser(user);
@@ -87,7 +86,7 @@ public class AuthControllerImpl implements AuthController {
      * @return List<User>
      */
     @Override
-    @GetMapping("/user/all")
+    @GetMapping("user/all")
     public List<User> getAllUsers() {
         return authService.getAllUsers();
     }
@@ -95,11 +94,11 @@ public class AuthControllerImpl implements AuthController {
     /**
      * Method take a collection of roles in parameters and return list of user with this roles
      *
-     * @param roles
+     * @param roles - user roles
      * @return List<User>
      */
     @Override
-    @GetMapping("/user/all/byRoles")
+    @GetMapping("user/all/byRoles")
     public List<User> getAllUsersByRole(@RequestParam("roles") String roles) {
         return authService.getAllUsersByRole(Arrays.asList(roles.split(",")));
     }
