@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,11 +94,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User createUser(User user) {
         logger.info("Method .createUser inputParam_1={}", user);
-        if (Objects.isNull(user.getLogin()) || Objects.isNull(user.getPassword()) || Objects.isNull(user.getUserId())) {
+        if (Objects.isNull(user.getLogin()) || Objects.isNull(user.getPassword())) {
             throw new BusinessLogicException("User doesnt have login,password or userid", ErrorCodes.ILLEGAL_ARGUMENT.name());
         }
         if (!Objects.isNull(authRepository.findUserByLogin(user.getLogin()))) {
             throw new BusinessLogicException("User with login= " + user.getLogin() + " already exists", ErrorCodes.DUPLICATE_LOGIN.name());
+        }
+        if (user.getUserId()==null){
+            user.setUserId(UUID.randomUUID().toString());
         }
         if (!Objects.isNull(authRepository.findUserByUserId(user.getUserId()))) {
             throw new BusinessLogicException("User with userid= " + user.getUserId() + " already exists", ErrorCodes.DUPLICATE_USERID.name());
