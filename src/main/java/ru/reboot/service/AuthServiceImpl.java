@@ -108,9 +108,17 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User createUser(User user) {
 
+        logger.info("Method .createUser User={}", user);
+
+        if (user.getUserId() == null) {
+            user.setUserId(UUID.randomUUID().toString());
+        }
+        if (user.getRoles() == null) {
+            user.setRoles(Collections.singletonList("USER"));
+        }
+
         try {
-            logger.info("Method .createUser User={}", user);
-            if (Objects.isNull(user.getLogin()) || Objects.isNull(user.getPassword()) || Objects.isNull(user.getUserId())) {
+            if (Objects.isNull(user.getLogin()) || Objects.isNull(user.getPassword())) {
                 throw new BusinessLogicException("User doesnt have login,password or userid", ErrorCodes.ILLEGAL_ARGUMENT);
             }
             if (!Objects.isNull(authRepository.findUserByLogin(user.getLogin()))) {
@@ -118,9 +126,6 @@ public class AuthServiceImpl implements AuthService {
             }
             if (!Objects.isNull(authRepository.findUserByUserId(user.getUserId()))) {
                 throw new BusinessLogicException("User with userid= " + user.getUserId() + " already exists", ErrorCodes.USER_ALREADY_EXISTS);
-            }
-            if (user.getRoles() == null) {
-                user.setRoles(Collections.singletonList("USER"));
             }
             authRepository.createUser(user);
             logger.info("Method .createUser completed inputParam_1={}, result={}", user, user);

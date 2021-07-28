@@ -2,8 +2,9 @@ server:
   port: 8071
 
 jdbc:
-  url: jdbc:postgresql://rc1b-ntnvoyyobhhfx8pe.mdb.yandexcloud.net:6432/simple_db
+#  url: jdbc:postgresql://rc1b-ntnvoyyobhhfx8pe.mdb.yandexcloud.net:6432/simple_db
   username: db_user
-  password: qwerty159753
-
+#  password: qwerty159753
+  password: qwerty
+  url: jdbc:postgresql://localhost:5432/simple_db
 
