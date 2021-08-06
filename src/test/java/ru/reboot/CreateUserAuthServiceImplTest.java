@@ -38,15 +38,11 @@ public class CreateUserAuthServiceImplTest {
     }
 
     @Test
-    public void negativeUserNoUserid(){
+    public void positiveUserNoUserid(){
         User user = new User.Builder().setLogin("login").setPassword("pass").build();
-        try{
-            authService.createUser(user);
-            Assert.fail();
-        }
-        catch (BusinessLogicException exception){
-            Assert.assertEquals(exception.getCode(),ErrorCodes.ILLEGAL_ARGUMENT);
-        }
+        Mockito.when(authRepository.findUserByLogin(user.getLogin())).thenReturn(null);
+        Mockito.when(authRepository.findUserByUserId(user.getUserId())).thenReturn(null);
+        Assert.assertEquals(user,authService.createUser(user));
     }
 
     @Test
